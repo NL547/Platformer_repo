@@ -18,13 +18,11 @@ namespace Platformer
         public Transform groundCheck;
 
         private Rigidbody2D rigidbody;
-        private Animator animator;
         private GameManager gameManager;
 
         void Start()
         {
             rigidbody = GetComponent<Rigidbody2D>();
-            animator = GetComponent<Animator>();
             gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         }
 
@@ -40,17 +38,12 @@ namespace Platformer
                 moveInput = Input.GetAxis("Horizontal");
                 Vector3 direction = transform.right * moveInput;
                 transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, movingSpeed * Time.deltaTime);
-                animator.SetInteger("playerState", 1); // Turn on run animation
             }
-            else
-            {
-                if (isGrounded) animator.SetInteger("playerState", 0); // Turn on idle animation
-            }
+
             if(Input.GetKeyDown(KeyCode.Space) && isGrounded )
             {
                 rigidbody.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
             }
-            if (!isGrounded)animator.SetInteger("playerState", 2); // Turn on jump animation
 
             if(facingRight == false && moveInput > 0)
             {
